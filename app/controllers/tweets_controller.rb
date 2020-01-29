@@ -1,7 +1,7 @@
 class TweetsController < ApplicationController
 
   before_action :set_tweet, only: [:edit, :show]
-  before_action :move_to_index, except: [:index, :show, :search]
+  before_action :move_to_index, only: [:index, :show, :search]
 
   def index
     @tweets = Tweet.includes(:user).order("created_at DESC").page(params[:page]).per(5)
@@ -14,6 +14,7 @@ class TweetsController < ApplicationController
   def create
     Tweet.create(tweet_params)
   end
+end
 
   def show
     @comment = Comment.new
@@ -45,4 +46,3 @@ class TweetsController < ApplicationController
   def move_to_index
     redirect_to root_path unless user_signed_in?
   end
-end
